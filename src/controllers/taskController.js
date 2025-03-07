@@ -61,7 +61,7 @@ exports.actualizarTarefa = async (req, res) => {
 exports.apagarTarefa = async (req, res) => {
     try {
         const taskId = req.params.id;
-        const affectedRows = taskService.apagarTarefa(taskId);
+        const affectedRows = await taskService.apagarTarefa(taskId);
         if (affectedRows == 0) {
             res.status(404).json({ error: "Tarefa não encontrada, impossível remover" })
         }
@@ -91,3 +91,36 @@ exports.carregarArquivo = async (req, res) => {
         res.status(500).json({ error: "Erro ao carregar arquivo na tarefa" });
     }
 };
+
+exports.listarArquivos = async(req, res)=>{
+    try{
+        const taskId = Number(req.params.id);
+        if (isNaN(taskId)) {
+            return res.status(400).json({ error: "Id da tarefa inválido" });
+        }
+        const files = await taskService.listarArquivos(taskId);
+        res.json({task_id: taskId, files: files});
+    }catch(error){
+        console.error("Erro ao buscar ficheiros da tarefa:", error);
+        res.status(500).json({ error: "Erro ao buscar ficheiros da tarefa" });
+    }
+}
+
+exports.apagarFicheiro = async(req, res)=>{
+    try {
+        const taskId = Number(req.params.id);
+        const fileId = Number(req.params.fileid);
+        if (isNaN(taskId)) {
+            return res.status(400).json({ error: "Id da tarefa inválido" });
+        }else if(isNaN(fileId)){
+            return res.status(400).json({ error: "Id do ficheiro inválido" });
+        }
+        const affectedRows = await taskService.apagarFicheiro(taskId, fileId);
+        if (affectedRows == 0) {
+            res.status(404).json({ error: "Problema ao remover" })
+        }
+        res.json({ message: "Arquivo apagado com sucesso" })
+    } catch (error) {
+        
+    }
+}

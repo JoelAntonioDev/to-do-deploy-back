@@ -1,4 +1,6 @@
 const db = require('../config/database');
+const fs = require('fs');
+const path = require('path');
 
 exports.listarTarefas = async () => {
   const [rows] = await db.query("SELECT * FROM task");
@@ -28,8 +30,43 @@ exports.apagarTarefa = async(taskId)=>{
 
 exports.carregarArquivo = async (filePath, fileName, fileExtension, taskId) => {
     const [result] = await db.query(
-        "INSERT INTO file (file_path, file_name, file_extension, task_id) VALUES (?, ?, ?, ?)",
+        'INSERT INTO file (file_path, file_name, file_extension, task_id) VALUES (?, ?, ?, ?)',
         [filePath, fileName, fileExtension, taskId]
     );
     return result.insertId;
+};
+
+exports.listarArquivos = async(taskId)=>{
+    const [rows] = await db.query('select * from file where task_id = ?',[taskId]);
+    return rows;
+};
+
+const buscarFicheiro = async(taskId, fileId)=>{
+    const [file] = await db.query('SELECT * FROM file WHERE task_id = ? AND file_id = ?', [taskId, fileId]);
+    return file;
+}
+const apagarFicheiroBD = async(taskId, fileId)=>{
+    const [result] = await db.query('DELETE FROM file WHERE task_id = ? AND file_id = ?', [taskId, fileId]);
+    return result.affectedRows; 
+}
+
+exports.apagarFicheiro = async (taskId, fileId) => {
+    const file = await buscarFicheiro(taskId, fileId);
+
+    if ( file.length === 0) {
+        return 0;// Arquivo não encontrado
+    }
+    const filePath = path.join(__dirname, '..', file[0].file_path); // Caminho absoluto
+
+    try {
+        if (fs.existsSync(filePath)) {
+            fs.unlinkSync(filePath);
+        }
+    } catch (err) {
+        console.error("Erro ao excluir o arquivo do sistema:", err);
+        throw new Error("Erro ao remover arquivo do sistema de arquivos");
+    }
+
+    return await apagarFicheiroBD(taskId, fileId);
+
 };

@@ -28,3 +28,15 @@ exports.carregarArquivo = async (file, taskId) => {
 
     return await taskModel.carregarArquivo(filePath, fileName, fileExtension, taskId);
 };
+
+exports.listarArquivos = async(taskId)=>{
+    const files = await taskModel.listarArquivos(taskId);
+    return files.map(file =>({
+        ...file,
+        file_url: `http://localhost:3000/${file.file_path}`
+    }));
+};
+
+exports.apagarFicheiro = async(taskId, fileId)=>{
+    return await taskModel.apagarFicheiro(taskId, fileId);
+};

@@ -9,6 +9,6 @@ router.get('/:id', taskController.buscarTarefa);
 router.put('/:id', taskController.actualizarTarefa);
 router.delete('/:id', taskController.apagarTarefa);
 router.post('/:id/upload',upload.single('file'), taskController.carregarArquivo);
-
-
+router.get('/:id/files', taskController.listarArquivos);
+router.delete('/:id/files/:fileid', taskController.apagarFicheiro);
 module.exports = router;
