@@ -14,6 +14,8 @@ yarn-debug.log*
 yarn-error.log*
 pm2.log
 
+src/uploads/
+
 dist/
 build/
 .cache/
