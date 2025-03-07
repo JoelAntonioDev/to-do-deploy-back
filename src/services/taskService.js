@@ -21,6 +21,10 @@ exports.apagarTarefa = async(taskId)=>{
     return await taskModel.apagarTarefa(taskId);
 };
 
-exports.carregarArquivo = async(body, taskId) =>{
-    return await taskModel.carregarArquivo(body, taskId);
+exports.carregarArquivo = async (file, taskId) => {
+    const filePath = `uploads/${file.filename}`;
+    const fileName = file.originalname;
+    const fileExtension = file.mimetype.split("/")[1];
+
+    return await taskModel.carregarArquivo(filePath, fileName, fileExtension, taskId);
 };

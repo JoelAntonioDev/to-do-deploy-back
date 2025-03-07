@@ -25,3 +25,11 @@ exports.apagarTarefa = async(taskId)=>{
     const [result] = await db.query('DELETE FROM task WHERE task_id=?',[taskId]);
     return result.affectedRows;
 }
+
+exports.carregarArquivo = async (filePath, fileName, fileExtension, taskId) => {
+    const [result] = await db.query(
+        "INSERT INTO file (file_path, file_name, file_extension, task_id) VALUES (?, ?, ?, ?)",
+        [filePath, fileName, fileExtension, taskId]
+    );
+    return result.insertId;
+};

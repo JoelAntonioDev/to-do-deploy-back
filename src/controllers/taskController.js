@@ -72,16 +72,22 @@ exports.apagarTarefa = async (req, res) => {
     }
 };
 
-exports.carregarArquivo = async(req, res)=>{
-    try{
-        const taskId = req.params.id;
-        const affectedRows = taskService.carregarArquivo(req.body, taskId);
-        if (affectedRows == 0) {
-            res.status(404).json({ error: "Arquivo não carregado, impossível encontrar tarefa" })
+exports.carregarArquivo = async (req, res) => {
+    try {
+        const taskId = Number(req.params.id);
+        if (isNaN(taskId)) {
+            return res.status(400).json({ error: "Id da tarefa inválido" });
         }
-        res.json({ message: "Arquivo carregado com sucesso" })
-    }catch(error){
+
+        if (!req.file) {
+            return res.status(400).json({ error: "Nenhum arquivo enviado" });
+        }
+
+        const fileId = await taskService.carregarArquivo(req.file, taskId);
+
+        res.json({ message: "Arquivo carregado com sucesso", fileId });
+    } catch (error) {
         console.error("Erro ao carregar arquivo na tarefa:", error);
-        res.status(500).json({ error: "Erro ao carregar arquivo na tarefa"});
+        res.status(500).json({ error: "Erro ao carregar arquivo na tarefa" });
     }
 };
