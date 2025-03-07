@@ -1,5 +1,6 @@
 const taskService = require('../services/taskService');
-
+const path = require('path');
+const fs = require('fs');
 exports.listarTarefas = async (req, res) => {
     try {
         const tasks = await taskService.listarTarefas();
@@ -124,3 +125,32 @@ exports.apagarFicheiro = async(req, res)=>{
         
     }
 }
+
+exports.obterArquivo = async (req, res) => {
+    try {
+        const { fileId } = req.params;
+        const userId = req.user.id; 
+
+        const arquivo = await taskService.buscarArquivoPorId(fileId);
+
+        if (!arquivo) {
+            return res.status(404).json({ error: "Arquivo não encontrado" });
+        }
+
+        if (arquivo.user_id !== userId) {
+            return res.status(403).json({ error: "Acesso negado" });
+        }
+
+        const filePath = path.join(__dirname, '../', arquivo.file_path);
+
+        if (!fs.existsSync(filePath)) {
+            return res.status(404).json({ error: "Arquivo não encontrado no servidor" });
+        }
+
+        // Enviar o arquivo
+        res.sendFile(filePath);
+    } catch (error) {
+        console.error("Erro ao obter arquivo:", error);
+        res.status(500).json({ error: "Erro ao obter arquivo" });
+    }
+};

@@ -8,3 +8,6 @@ exports.criarUsuario = async (userData) => {
   const { nome, sobrenome,  email, senha } = userData;
   return await userModel.criarUsuario(nome, sobrenome, email, senha);
 };
+exports.buscarUsuarioPorEmail = async (email) => {
+    return await userModel.buscarUsuarioPorEmail(email);
+};

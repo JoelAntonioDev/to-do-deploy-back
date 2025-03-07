@@ -40,3 +40,7 @@ exports.listarArquivos = async(taskId)=>{
 exports.apagarFicheiro = async(taskId, fileId)=>{
     return await taskModel.apagarFicheiro(taskId, fileId);
 };
+
+exports.buscarArquivoPorId = async (fileId) => {
+    return await taskModel.buscarArquivoPorId(fileId);
+};

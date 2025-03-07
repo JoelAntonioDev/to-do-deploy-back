@@ -9,3 +9,8 @@ exports.criarUsuario = async (nome, sobrenome, email, senha) => {
   const [result] = await db.query("INSERT INTO usuario (nome, sobrenome, email, senha) VALUES (?, ?, ?, ?)", [nome, sobrenome, email, senha]);
   return result.insertId;
 };
+
+exports.buscarUsuarioPorEmail = async (email) => {
+    const [rows] = await db.query('SELECT email, senha FROM usuario WHERE email = ?', [email]);
+    return rows[0];
+};

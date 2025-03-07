@@ -70,3 +70,9 @@ exports.apagarFicheiro = async (taskId, fileId) => {
     return await apagarFicheiroBD(taskId, fileId);
 
 };
+
+
+exports.buscarArquivoPorId = async (fileId) => {
+    const [rows] = await db.query("SELECT * FROM file WHERE file_id = ?", [fileId]);
+    return rows[0];
+};

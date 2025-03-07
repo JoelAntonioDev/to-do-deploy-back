@@ -1,4 +1,7 @@
 const userService = require('../services/userService');
+const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
+require('dotenv').config();
 
 exports.obterUsuarios = async (req, res) => {
   try {
@@ -10,10 +13,46 @@ exports.obterUsuarios = async (req, res) => {
 };
 
 exports.criarUsuario = async (req, res) => {
-  try {
-    const userId = await userService.criarUsuario(req.body);
-    res.status(201).json({ id: userId, message: "Usuário criado com sucesso" });
-  } catch (error) {
-    res.status(500).json({ error: "Erro ao criar usuário" });
-  }
+    try {
+      const { nome, sobrenome, email, senha } = req.body;
+  
+      if (!nome || !sobrenome || !email || !senha) {
+        return res.status(400).json({ error: "Todos os campos são obrigatórios" });
+      }
+  
+      const senhaCriptografada = await bcrypt.hash(senha, 10);
+  
+      const userId = await userService.criarUsuario({ nome, sobrenome, email, senha: senhaCriptografada });
+  
+      res.status(201).json({ id: userId, message: "Usuário criado com sucesso" });
+    } catch (error) {
+      console.error("Erro ao criar usuário:", error);
+      res.status(500).json({ error: "Erro ao criar usuário" });
+    }
+  };
+
+exports.login = async (req, res) => {
+    try {
+        const { email, senha } = req.body;
+        const user = await userService.buscarUsuarioPorEmail(email);
+
+        if (!user) {
+            return res.status(401).json({ error: "Usuário ou senha inválidos" });
+        }
+
+        const senhaValida = await bcrypt.compare(senha, user.senha);
+        if (!senhaValida) {
+            return res.status(401).json({ error: "Usuário ou senha inválidos" });
+        }
+
+        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
+
+        res.json({ message: "Login bem-sucedido", token });
+    } catch (error) {
+        res.status(500).json({ error: "Erro ao realizar login" });
+    }
+};
+
+exports.logout = async (req, res) => {
+    res.json({ message: "Logout bem-sucedido" });
 };
