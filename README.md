@@ -9,6 +9,9 @@ Este é um projeto de API RESTful para gerenciar tarefas, desenvolvido com **Nod
 - MySQL
 - dotenv
 - cors
+- jsonwebtoken
+- multer
+- bcrypt
 
 ## Como executar o projeto
 
@@ -34,6 +37,8 @@ DB_PASS=sua_senha
 DB_NAME=todo_list
 DB_PORT=3306  # Porta do MySQL
 PORT=3000     # Porta do servidor Node.js
+JWT_SECRET = password_secreta
+JWT_EXPIRES_IN = 1d
 
 3️⃣ Instalar dependências
 
@@ -57,6 +62,7 @@ A API estará disponível em:
     POST /tasks/:id/upload - faz upload de um arquivo associado a uma tarefa
     GET /tasks/:id/files - lista arquivos associados a uma tarefa
     DELETE /tasks/:id/files/:fileid - remove um arquivo específico associado a uma tarefa
+    GET /files/:fileId - rota para servir os arquivos para o front
 
 🛠️ Tecnologias utilizadas
 
