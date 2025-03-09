@@ -52,7 +52,6 @@ exports.buscarTarefa = async (req, res) => {
 exports.actualizarTarefa = async (req, res) => {
     try {
         const taskId = Number(req.params.id);
-
         if (isNaN(taskId)) {
             return res.status(400).json({ error: "ID inválido" });
         }
@@ -66,7 +65,7 @@ exports.actualizarTarefa = async (req, res) => {
             return res.status(400).json({ error: "Token inválido" });
         }
 
-        const statusValidos = ['pendente', 'em progresso', 'concluido'];
+        const statusValidos = ['pendente', 'em andamento', 'concluído'];
 
         if (!statusValidos.includes(status)) {
             return res.status(400).json({ error: `Status inválido. Os valores válidos são: ${statusValidos.join(', ')}` });
