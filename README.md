@@ -64,7 +64,14 @@ Para iniciar o servidor, execute:
 A API estará disponível em:
 🔗 http://localhost:3000
 📡 Rotas da API
-📂 Gerenciamento de Tarefas
+
+📂 Gestão de Usuários
+    GET /users - Lista todos os usuários
+    POST /users - Adicionar usuário
+    GET /users/:id - Obtém os detalhes de um usuário
+    POST /users/login - Fazer login
+    POST /users/logout - Fazer logout
+📂 Gestão de Tarefas
 
     GET /tasks - Lista todas as tarefas
     GET /tasks/:id - Obtém os detalhes de uma tarefa específica
@@ -72,19 +79,11 @@ A API estará disponível em:
     PUT /tasks/:id - Atualiza uma tarefa existente
     DELETE /tasks/:id - Remove uma tarefa
 
-📁 Gerenciamento de Arquivos
+📁 Gestão de Arquivos
 
     POST /tasks/:id/upload - Faz upload de um arquivo associado a uma tarefa
     GET /tasks/:id/files - Lista os arquivos associados a uma tarefa
     GET /files/:fileId - Obtém um arquivo específico
     DELETE /tasks/:id/files/:fileId - Remove um arquivo associado a uma tarefa
 
-🛠️ Tecnologias Utilizadas
-Tecnologia	Descrição
-Express	Framework web para criação da API
-MySQL	Banco de dados para armazenamento
-dotenv	Gerenciamento de variáveis de ambiente
-jsonwebtoken	Autenticação baseada em tokens JWT
-multer	Upload e manipulação de arquivos
-bcrypt	Criptografia para segurança de senhas
 💙 Feito por Joel António 🚀
