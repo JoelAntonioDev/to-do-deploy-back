@@ -28,6 +28,12 @@ Certifique-se de ter instalado em sua máquina:
 - [MySQL](https://www.mysql.com/)
 
 ---
+Clonar o repositório
+
+    git clone https://github.com/JoelAntonioDev/to-do-list-backend.git
+
+    cd to-do-list-backend
+
 
 ### 2️⃣ **Configuração do Banco de Dados**
 
