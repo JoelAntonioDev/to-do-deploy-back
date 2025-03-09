@@ -24,7 +24,7 @@ exports.criarUsuario = async (req, res) => {
   
       const userId = await userService.criarUsuario({ nome, sobrenome, email, senha: senhaCriptografada });
   
-      res.status(201).json({ id: userId, message: "Usuário criado com sucesso" });
+      res.status(201).json({ message: "Usuário criado com sucesso" });
     } catch (error) {
       console.error("Erro ao criar usuário:", error);
       res.status(500).json({ error: "Erro ao criar usuário" });
@@ -44,10 +44,10 @@ exports.login = async (req, res) => {
         if (!senhaValida) {
             return res.status(401).json({ error: "Usuário ou senha inválidos" });
         }
+        console.log(user);
+        const token = jwt.sign({ id: user.user_id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
 
-        const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: process.env.JWT_EXPIRES_IN });
-
-        res.json({ message: "Login bem-sucedido", token });
+        res.status(200).json({ message: "Login bem-sucedido", token, email });
     } catch (error) {
         res.status(500).json({ error: "Erro ao realizar login" });
     }

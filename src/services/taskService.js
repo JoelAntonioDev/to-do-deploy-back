@@ -1,43 +1,50 @@
 const taskModel = require('../models/taskModel');
 
-exports.listarTarefas = async () => {
-  return await taskModel.listarTarefas();
+exports.listarTarefasPorUsuario = async (userId) => {
+    return await taskModel.listarTarefasPorUsuario(userId);
 };
 
-exports.criarTarefa = async (taskData) => {
-  const { titulo, descricao, user_id } = taskData;
-  return await taskModel.criarTarefa(titulo, descricao, user_id);
+exports.criarTarefa = async (titulo, descricao, user_id) => {
+    return await taskModel.criarTarefa(titulo, descricao, user_id);
 };
 
-exports.buscarTarefa = async (taskId) => {
-    return await taskModel.buscarTarefa(taskId);
+
+exports.buscarTarefa = async (taskId, userId) => {
+    return await taskModel.buscarTarefa(taskId, userId);
 };
 
-exports.actualizarTarefa = async(taskData, taskId)=>{
+exports.actualizarTarefa = async (taskData, taskId) => {
     return await taskModel.actualizarTarefa(taskData, taskId);
 };
 
-exports.apagarTarefa = async(taskId)=>{
-    return await taskModel.apagarTarefa(taskId);
+exports.apagarTarefa = async (taskId, userId) => {
+    return await taskModel.apagarTarefa(taskId, userId);
 };
 
-exports.carregarArquivo = async (file, taskId) => {
+exports.carregarArquivo = async (file, taskId, userId) => {
     const filePath = `uploads/${file.filename}`;
     const fileName = file.originalname;
-    const fileExtension = file.mimetype.split("/")[1];
 
-    return await taskModel.carregarArquivo(filePath, fileName, fileExtension, taskId);
+    if (!file.mimetype || !file.mimetype.includes("/")) {
+        throw new Error("Tipo de arquivo inválido");
+    }
+
+    const fileExtension = file.mimetype.split("/")[1]; 
+    console.log("Extensão do arquivo no service:", fileExtension);
+
+    return await taskModel.carregarArquivo(filePath, fileName, fileExtension, taskId, userId);
 };
 
-exports.listarArquivos = async(taskId)=>{
+
+exports.listarArquivos = async (taskId) => {
     const files = await taskModel.listarArquivos(taskId);
-    return files.map(file =>({
+    return files.map(file => ({
         ...file,
         file_url: `http://localhost:3000/${file.file_path}`
     }));
 };
 
-exports.apagarFicheiro = async(taskId, fileId)=>{
+exports.apagarFicheiro = async (taskId, fileId) => {
     return await taskModel.apagarFicheiro(taskId, fileId);
 };
 

@@ -11,6 +11,7 @@ exports.criarUsuario = async (nome, sobrenome, email, senha) => {
 };
 
 exports.buscarUsuarioPorEmail = async (email) => {
-    const [rows] = await db.query('SELECT email, senha FROM usuario WHERE email = ?', [email]);
+    const [rows] = await db.query('SELECT user_id, email, senha FROM usuario WHERE email = ?', [email]);
+    console.log(rows);
     return rows[0];
 };

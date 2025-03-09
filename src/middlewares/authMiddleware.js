@@ -10,7 +10,8 @@ const autenticarJWT = (req, res, next) => {
 
     try {
         const decoded = jwt.verify(token.replace('Bearer ', ''), process.env.JWT_SECRET);
-        req.user = decoded;
+        console.log('Token decodificado:', decoded);  
+        req.userId = decoded.id; 
         next();
     } catch (error) {
         return res.status(403).json({ error: "Token inválido" });
