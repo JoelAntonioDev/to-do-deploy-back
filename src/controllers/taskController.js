@@ -174,16 +174,12 @@ exports.apagarFicheiro = async (req, res) => {
 exports.obterArquivo = async (req, res) => {
     try {
         const { fileId } = req.params;
-        const userId = req.user.id;
+        const userId = req.userId;
 
         const arquivo = await taskService.buscarArquivoPorId(fileId);
 
         if (!arquivo) {
             return res.status(404).json({ error: "Arquivo não encontrado" });
-        }
-
-        if (arquivo.user_id !== userId) {
-            return res.status(403).json({ error: "Acesso negado" });
         }
 
         const filePath = path.join(__dirname, '../', arquivo.file_path);
