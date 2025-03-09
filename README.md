@@ -63,14 +63,17 @@ Para iniciar o servidor, execute:
 
 A API estará disponível em:
 🔗 http://localhost:3000
+
 📡 Rotas da API
 
 📂 Gestão de Usuários
+
     GET /users - Lista todos os usuários
     POST /users - Adicionar usuário
     GET /users/:id - Obtém os detalhes de um usuário
     POST /users/login - Fazer login
     POST /users/logout - Fazer logout
+
 📂 Gestão de Tarefas
 
     GET /tasks - Lista todas as tarefas
