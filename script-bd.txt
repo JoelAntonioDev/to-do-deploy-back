@@ -6,7 +6,7 @@ CREATE TABLE usuario (
     nome VARCHAR(100) NOT NULL,
     sobrenome VARCHAR(100) NOT NULL,
     email VARCHAR(150) UNIQUE NOT NULL,
-    senha VARCHAR(255) NOT NULL, 
+    senha VARCHAR(255) NOT NULL, -- Deve ser criptografada
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
@@ -24,8 +24,8 @@ CREATE TABLE file (
     file_id INT PRIMARY KEY AUTO_INCREMENT,
     file_path VARCHAR(255) NOT NULL,
     file_name VARCHAR(255) NOT NULL,
-    file_extension VARCHAR(10),
+    file_extension VARCHAR(10), -- Opcional, mas pode ajudar
     data_criacao TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     task_id INT,
-    FOREIGN KEY (task_id) REFERENCES task(task_id) ON DELETE CASCADE
+    FOREIGN KEY (task_id) REFERENCES task(task_id) ON DELETE CASCADE
 );
