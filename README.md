@@ -38,10 +38,8 @@ Clonar o repositório
 ### 2️⃣ **Configuração do Banco de Dados**
 
 1. **Criar a base de dados MySQL**:  
-   No MySQL, execute o seguinte comando para criar o banco:
-
-   ```sql
-        CREATE DATABASE todo_list;
+   Entrar no Workbench ou SGBD para MySQL e copiar o conteúdo script-bd.txt que está na raíz do projecto
+    
 
     Configurar as variáveis de ambiente:
     Crie um arquivo .env na raiz do projeto com o seguinte conteúdo:
