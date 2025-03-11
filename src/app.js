@@ -5,7 +5,7 @@ const taskRoutes = require('./routes/taskRoutes');
 const app = express();
 
 app.use(express.json());
-app.use(cors());
+app.use(cors({ origin: "https://to-do-deploy-two.vercel.app/" }));
 
 app.use('/users', userRoutes);
 app.use('/tasks', taskRoutes);
